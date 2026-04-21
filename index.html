@@ -7,7 +7,7 @@
 <meta name="description" content="Make your AI systems reliable, safe, and audit-ready. RudriQ is building the reliability layer for production AI. AutoLineage, our first product, is live on PyPI.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
   --paper: #f2ede3;
@@ -29,9 +29,9 @@
   --crt-bg: #0a0f0a;
   --crt-bg-2: #081108;
   --accent-soft: rgba(139, 42, 23, 0.08);
-  --amber-soft: rgba(200, 113, 26, 0.1);
-  --serif: 'Instrument Serif', 'Times New Roman', Georgia, serif;
-  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --crt-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -42,24 +42,24 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   font-weight: 400;
 }
 
-/* Paper grain + subtle schematic grid */
+/* Paper grain */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.09 0 0 0 0 0.08 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
 }
 
-/* Technical schematic grid — very subtle */
+/* Schematic grid — very subtle technical feel */
 body::after {
   content: '';
   position: fixed;
@@ -67,20 +67,20 @@ body::after {
   pointer-events: none;
   z-index: 0;
   background-image:
-    linear-gradient(to right, rgba(26,24,20,0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(26,24,20,0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(26,24,20,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(26,24,20,0.025) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 ::selection { background: var(--accent); color: var(--paper); }
 
-.serif { font-family: var(--serif); font-weight: 400; letter-spacing: -0.005em; }
-.italic { font-style: italic; }
+.sans { font-family: var(--sans); }
+.tight { letter-spacing: -0.04em; }
 
 a { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color 0.15s; }
 a:hover { color: var(--accent); }
 
-/* ===== TOP BAR (Technical manifest header) ===== */
+/* ===== TOP BAR ===== */
 .topbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   background: var(--paper);
@@ -88,32 +88,30 @@ a:hover { color: var(--accent); }
   padding: 0;
 }
 .topbar-inner {
-  max-width: 1400px; margin: 0 auto; padding: 0.65rem 2rem;
+  max-width: 1400px; margin: 0 auto; padding: 0.7rem 2rem;
   display: flex; justify-content: space-between; align-items: center;
   font-family: var(--mono);
   font-size: 0.72rem;
 }
 .topbar-logo {
-  font-family: var(--serif);
-  font-size: 1.5rem;
-  font-weight: 400;
-  letter-spacing: -0.02em;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.3rem;
+  letter-spacing: -0.04em;
   line-height: 1;
   display: inline-flex; align-items: baseline;
 }
 .topbar-logo .mark {
   color: var(--accent);
-  font-style: italic;
   display: inline-block;
-  transform: translateY(-1px) rotate(-8deg);
-  transform-origin: bottom left;
-  margin-left: 0.02em;
+  font-weight: 700;
+  font-style: italic;
+  margin-left: 0.015em;
 }
-
 .topbar-nav {
   display: flex; gap: 1.8rem; align-items: center;
   text-transform: uppercase; letter-spacing: 0.12em;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
 }
 .topbar-nav a {
@@ -134,18 +132,19 @@ a:hover { color: var(--accent); }
   color: var(--paper);
 }
 
-/* Manifest sub-strip — adds technical feel */
+/* Manifest strip */
 .manifest-strip {
   max-width: 1400px; margin: 0 auto;
-  padding: 0.35rem 2rem;
+  padding: 0.4rem 2rem;
   display: flex; gap: 2rem;
   font-family: var(--mono);
   font-size: 0.62rem;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   color: var(--ink-faint);
   border-bottom: 1px solid var(--rule);
   background: var(--paper-2);
+  font-weight: 500;
 }
 .manifest-strip .item { display: flex; align-items: center; gap: 0.5rem; }
 .manifest-strip .item::before {
@@ -172,7 +171,7 @@ a:hover { color: var(--accent); }
   50% { opacity: 0.5; transform: scale(1.4); }
 }
 
-/* ===== HERO (Masthead style) ===== */
+/* ===== HERO ===== */
 .hero {
   padding: 10rem 2rem 5rem;
   max-width: 1400px; margin: 0 auto;
@@ -187,6 +186,7 @@ a:hover { color: var(--accent); }
   color: var(--ink-dim);
   margin-bottom: 2rem;
   display: inline-flex; align-items: center; gap: 0.8rem;
+  font-weight: 500;
 }
 .hero-label::before {
   content: '';
@@ -195,35 +195,38 @@ a:hover { color: var(--accent); }
 }
 
 .hero h1 {
-  font-family: var(--serif);
-  font-size: clamp(3.5rem, 9vw, 8.5rem);
-  line-height: 0.92;
-  font-weight: 400;
-  letter-spacing: -0.035em;
+  font-family: var(--sans);
+  font-size: clamp(3.2rem, 8.5vw, 8rem);
+  line-height: 0.95;
+  font-weight: 500;
+  letter-spacing: -0.045em;
   margin-bottom: 2rem;
   max-width: 1200px;
 }
 .hero h1 .tag {
   display: block;
-  font-size: 0.55em;
+  font-size: 0.5em;
   color: var(--ink-dim);
-  font-style: italic;
-  margin-top: 0.5rem;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  margin-top: 0.6rem;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 .hero h1 .accent {
   color: var(--accent);
+  font-weight: 600;
   font-style: italic;
 }
 
 .hero-sub {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: clamp(1.3rem, 2.2vw, 1.7rem);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
   color: var(--ink-mid);
   line-height: 1.45;
   margin-bottom: 3rem;
   max-width: 720px;
+  letter-spacing: -0.01em;
 }
 
 .hero-meta {
@@ -242,8 +245,9 @@ a:hover { color: var(--accent); }
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--ink-dim);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   padding-top: 0.15rem;
+  font-weight: 500;
 }
 .hero-meta .value { color: var(--ink); }
 .hero-meta .value code {
@@ -251,18 +255,19 @@ a:hover { color: var(--accent); }
   background: var(--paper-2);
   padding: 0.1rem 0.4rem;
   border: 1px solid var(--rule);
+  font-size: 0.78rem;
 }
 
 .hero-actions {
   display: flex; gap: 1rem; flex-wrap: wrap;
 }
 .btn {
-  padding: 0.9rem 1.4rem;
+  padding: 0.85rem 1.4rem;
   font-family: var(--mono);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-decoration: none;
   transition: all 0.15s;
   display: inline-flex; align-items: center; gap: 0.6rem;
@@ -291,7 +296,7 @@ a:hover { color: var(--accent); }
 .btn .arrow { transition: transform 0.2s; }
 .btn:hover .arrow { transform: translateX(4px); }
 
-/* ===== STATS (Technical spec sheet) ===== */
+/* ===== SPEC SHEET ===== */
 .spec-sheet {
   max-width: 1400px;
   margin: 0 auto;
@@ -319,22 +324,25 @@ a:hover { color: var(--accent); }
   font-size: 0.6rem;
   color: var(--ink-faint);
   letter-spacing: 0.15em;
+  font-weight: 500;
 }
 .spec-value {
-  font-family: var(--serif);
-  font-size: 3rem;
+  font-family: var(--sans);
+  font-size: 3.2rem;
   line-height: 1;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.4rem;
+  letter-spacing: -0.045em;
+  margin-bottom: 0.5rem;
   margin-top: 0.8rem;
+  font-weight: 500;
 }
-.spec-value .accent { color: var(--accent); font-style: italic; }
+.spec-value .accent { color: var(--accent); font-weight: 600; }
 .spec-label {
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
   color: var(--ink-dim);
+  font-weight: 500;
 }
 
 /* ===== SECTIONS ===== */
@@ -354,13 +362,14 @@ section {
 }
 .section-num {
   font-family: var(--mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.25em;
   color: var(--ink-dim);
   padding-top: 0.5rem;
   border-top: 1px solid var(--ink);
   position: relative;
+  font-weight: 500;
 }
 .section-num::after {
   content: '';
@@ -370,23 +379,24 @@ section {
   background: var(--accent);
 }
 .section-title {
-  font-family: var(--serif);
+  font-family: var(--sans);
   font-size: clamp(2.2rem, 4.5vw, 4rem);
   line-height: 1.05;
-  letter-spacing: -0.025em;
-  font-weight: 400;
+  letter-spacing: -0.04em;
+  font-weight: 500;
 }
-.section-title .italic { color: var(--accent); font-style: italic; }
+.section-title .italic { color: var(--accent); font-style: italic; font-weight: 600; }
 .section-sub {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.25rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.15rem;
   color: var(--ink-mid);
   max-width: 720px;
-  line-height: 1.5;
+  line-height: 1.55;
   margin-top: 1rem;
   margin-left: calc(150px + 2rem);
   margin-bottom: 4rem;
+  letter-spacing: -0.01em;
 }
 
 /* ===== PROBLEM CARDS ===== */
@@ -406,23 +416,26 @@ section {
 .problem-card:last-child { border-right: none; }
 .problem-card:hover { background: var(--paper-2); }
 .problem-card .q-mark {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 500;
   font-style: italic;
   font-size: 5rem;
   color: var(--accent);
   line-height: 1;
   margin-bottom: 1rem;
-  opacity: 0.35;
+  opacity: 0.3;
 }
 .problem-card h3 {
-  font-family: var(--serif);
-  font-size: 1.6rem;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 1.5rem;
   line-height: 1.2;
   margin-bottom: 1rem;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
 }
 .problem-card p {
-  font-size: 0.88rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
   line-height: 1.7;
   color: var(--ink-mid);
 }
@@ -430,12 +443,13 @@ section {
   position: absolute;
   top: 1.5rem; right: 1.5rem;
   font-family: var(--mono);
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   color: var(--ink-faint);
   letter-spacing: 0.15em;
+  font-weight: 500;
 }
 
-/* ===== CRT TERMINAL (The futuristic element on paper) ===== */
+/* ===== CRT TERMINAL ===== */
 .terminal-section {
   background: var(--paper-2);
   border-top: 2px solid var(--ink);
@@ -455,6 +469,7 @@ section {
   text-transform: uppercase;
   letter-spacing: 0.3em;
   color: var(--ink-faint);
+  font-weight: 500;
 }
 .terminal-container {
   max-width: 1400px; margin: 0 auto;
@@ -468,38 +483,42 @@ section {
 }
 .terminal-caption .caption-label {
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: var(--accent);
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 .terminal-caption h3 {
-  font-family: var(--serif);
-  font-size: 2.2rem;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 2rem;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   margin-bottom: 1rem;
 }
-.terminal-caption h3 .italic { color: var(--accent); font-style: italic; }
+.terminal-caption h3 .italic { color: var(--accent); font-style: italic; font-weight: 600; }
 .terminal-caption p {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.05rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1rem;
   color: var(--ink-mid);
   line-height: 1.5;
   margin-bottom: 1.2rem;
+  letter-spacing: -0.01em;
 }
 .terminal-caption .detail {
   font-family: var(--mono);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   color: var(--ink-dim);
   line-height: 1.7;
   padding-top: 1rem;
   border-top: 1px solid var(--rule);
 }
+.terminal-caption .detail strong { color: var(--ink); font-weight: 600; }
 
-/* The CRT screen itself */
+/* CRT screen */
 .crt {
   background: var(--crt-bg);
   border: 3px solid var(--ink);
@@ -538,16 +557,14 @@ section {
   border-bottom: 1px solid rgba(74,222,128,0.15);
   padding: 0.6rem 1.2rem;
   display: flex; align-items: center; gap: 0.8rem;
-  font-family: var(--mono);
+  font-family: var(--crt-mono);
   font-size: 0.68rem;
   color: var(--phosphor);
   text-shadow: 0 0 6px var(--phosphor);
   position: relative;
   z-index: 1;
 }
-.crt-chrome .indicator {
-  display: flex; gap: 0.4rem; align-items: center;
-}
+.crt-chrome .indicator { display: flex; gap: 0.4rem; align-items: center; }
 .crt-chrome .indicator .led {
   width: 8px; height: 8px; border-radius: 50%;
   background: var(--phosphor);
@@ -571,8 +588,8 @@ section {
 .crt-screen {
   padding: 1.5rem 2rem;
   min-height: 480px;
-  font-family: var(--mono);
-  font-size: 0.82rem;
+  font-family: var(--crt-mono);
+  font-size: 0.8rem;
   line-height: 1.9;
   color: var(--phosphor);
   text-shadow: 0 0 6px rgba(74,222,128,0.5);
@@ -616,7 +633,7 @@ section {
 .crt-line .crt-op .fn { color: #fbbf24; }
 .crt-line .crt-meta {
   color: rgba(74,222,128,0.55);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   text-shadow: none;
 }
 .crt-cursor {
@@ -635,11 +652,11 @@ section {
 .crt-prompt {
   color: var(--phosphor);
   margin-bottom: 1rem;
-  font-size: 0.78rem;
+  font-size: 0.76rem;
 }
 .crt-prompt .path { color: rgba(74,222,128,0.6); }
 
-/* ===== FLAGSHIP PRODUCT (AutoLineage) ===== */
+/* ===== FLAGSHIP PRODUCT ===== */
 .flagship {
   padding: 8rem 2rem;
   max-width: 1400px; margin: 0 auto;
@@ -671,7 +688,7 @@ section {
 }
 .flagship-left .ship-tag {
   display: inline-block;
-  padding: 0.25rem 0.7rem;
+  padding: 0.3rem 0.75rem;
   background: var(--accent);
   color: var(--paper);
   font-family: var(--mono);
@@ -682,21 +699,28 @@ section {
   font-weight: 600;
 }
 .flagship-left h2 {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 500;
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.05em;
   margin-bottom: 0.6rem;
 }
-.flagship-left h2 .italic { color: var(--accent); font-style: italic; }
-.flagship-left .tagline {
-  font-family: var(--serif);
+.flagship-left h2 .italic {
+  color: var(--accent);
   font-style: italic;
-  font-size: 1.3rem;
+  font-weight: 600;
+}
+.flagship-left .tagline {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.2rem;
   color: var(--ink-mid);
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid var(--rule);
+  letter-spacing: -0.01em;
 }
 .flagship-features {
   list-style: none;
@@ -704,8 +728,8 @@ section {
 }
 .flagship-features li {
   font-family: var(--mono);
-  font-size: 0.84rem;
-  padding: 0.5rem 0;
+  font-size: 0.82rem;
+  padding: 0.55rem 0;
   display: flex; gap: 0.8rem;
   color: var(--ink);
   line-height: 1.5;
@@ -721,13 +745,13 @@ section {
 }
 .flagship-features li .detail {
   color: var(--ink-dim);
-  font-size: 0.76rem;
+  font-size: 0.74rem;
   display: block;
   margin-top: 0.15rem;
 }
 .flagship-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
 
-/* Code panel - still paper, but with ink-black code block */
+/* Code panel */
 .flagship-right { padding: 2rem; background: var(--paper-inset); display: flex; align-items: center; }
 .code-window {
   background: var(--ink);
@@ -775,7 +799,7 @@ section {
 .co { color: #ef9a9a; }
 .cv { color: var(--paper); }
 
-/* ===== VISION — FUTURE PRODUCTS ===== */
+/* ===== VISION ===== */
 .vision-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -796,20 +820,22 @@ section {
   content: attr(data-num);
   position: absolute;
   top: 1rem; right: 1.5rem;
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 400;
   font-style: italic;
-  font-size: 4rem;
+  font-size: 3.5rem;
   color: var(--rule);
   line-height: 1;
   pointer-events: none;
+  letter-spacing: -0.05em;
 }
-.vision-card:hover::before { color: var(--accent); opacity: 0.3; }
+.vision-card:hover::before { color: var(--accent); opacity: 0.35; }
 .vc-eta {
   font-family: var(--mono);
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  padding: 0.2rem 0.6rem;
+  padding: 0.25rem 0.6rem;
   background: var(--ink);
   color: var(--paper);
   display: inline-block;
@@ -817,27 +843,30 @@ section {
   font-weight: 600;
 }
 .vision-card h3 {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 500;
   font-size: 2rem;
   line-height: 1.05;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.045em;
   margin-bottom: 0.6rem;
 }
-.vision-card h3 .italic { color: var(--accent); font-style: italic; }
+.vision-card h3 .italic { color: var(--accent); font-style: italic; font-weight: 600; }
 .vision-card .vc-tag {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 300;
   font-style: italic;
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--ink-mid);
   line-height: 1.4;
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--rule);
+  letter-spacing: -0.01em;
 }
 .vision-card ul { list-style: none; }
 .vision-card li {
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   color: var(--ink-mid);
   padding: 0.3rem 0;
   display: flex; gap: 0.6rem;
@@ -847,6 +876,7 @@ section {
   content: '—';
   color: var(--accent);
   flex-shrink: 0;
+  font-weight: 500;
 }
 
 /* ===== COMPARE ===== */
@@ -871,16 +901,16 @@ section {
   padding: 1rem 1.1rem;
   text-align: center;
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   border-bottom: 1px solid var(--rule);
 }
 .compare-table th {
   background: var(--ink);
   color: var(--paper);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  font-weight: 500;
+  font-weight: 600;
   border-right: 1px solid var(--ink-mid);
 }
 .compare-table th:last-child { border-right: none; }
@@ -889,9 +919,10 @@ section {
 .compare-table td:last-child { border-right: none; }
 .compare-table th:first-child, .compare-table td:first-child {
   text-align: left;
-  font-family: var(--serif);
-  font-size: 1rem;
-  letter-spacing: -0.01em;
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
   color: var(--ink);
   border-right: 1px solid var(--ink);
 }
@@ -900,8 +931,10 @@ section {
   font-family: var(--mono);
   font-size: 0.66rem;
   color: var(--ink-dim);
-  margin-top: 0.1rem;
+  margin-top: 0.15rem;
   font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 .compare-table .rudriq-col {
   background: var(--accent-soft);
@@ -928,35 +961,40 @@ section {
   content: '¶';
   position: absolute;
   top: 3rem; left: 50%; transform: translateX(-50%);
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 400;
   font-size: 2rem;
   color: var(--accent);
 }
 .manifesto h2 {
-  font-family: var(--serif);
-  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
   line-height: 1.05;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.05em;
   margin-bottom: 2rem;
-  font-weight: 400;
 }
-.manifesto h2 .italic { color: var(--accent); font-style: italic; }
+.manifesto h2 .italic { color: var(--accent); font-style: italic; font-weight: 600; }
 .manifesto-sub {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 300;
   font-style: italic;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   color: var(--ink-mid);
   max-width: 680px;
   margin: 0 auto 3rem;
   line-height: 1.45;
+  letter-spacing: -0.01em;
 }
 .manifesto-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
 .manifesto-signature {
-  font-family: var(--serif);
-  font-style: italic;
+  font-family: var(--mono);
   color: var(--ink-dim);
-  font-size: 0.95rem;
+  font-size: 0.72rem;
   margin-top: 3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
 }
 .manifesto-signature::before {
   content: '';
@@ -981,41 +1019,44 @@ footer {
   border-bottom: 1px solid #3a3732;
 }
 .footer-brand h3 {
-  font-family: var(--serif);
-  font-size: 2rem;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
   display: inline-flex; align-items: baseline;
 }
 .footer-brand h3 .mark {
   color: var(--accent);
+  font-weight: 700;
   font-style: italic;
-  display: inline-block;
-  transform: translateY(-1px) rotate(-8deg);
-  transform-origin: bottom left;
 }
 .footer-brand p {
-  font-family: var(--serif);
+  font-family: var(--sans);
+  font-weight: 300;
   font-style: italic;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   line-height: 1.55;
   color: #a8a398;
   max-width: 400px;
+  letter-spacing: -0.01em;
 }
 .footer-col h5 {
   font-family: var(--mono);
-  font-size: 0.66rem;
+  font-size: 0.64rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: #6f6a60;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 .footer-col ul { list-style: none; }
 .footer-col ul li { margin-bottom: 0.5rem; }
 .footer-col ul li a {
   color: #d6d1c4;
   text-decoration: none;
-  font-size: 0.82rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
   transition: color 0.15s;
 }
 .footer-col ul li a:hover { color: var(--accent); }
@@ -1026,10 +1067,11 @@ footer {
   justify-content: space-between;
   align-items: center;
   font-family: var(--mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: #6f6a60;
   text-transform: uppercase;
   letter-spacing: 0.15em;
+  font-weight: 500;
 }
 
 /* ===== ANIMATIONS ===== */
@@ -1062,7 +1104,7 @@ footer {
   .topbar-inner { padding: 0.6rem 1.2rem; }
   .topbar-nav { gap: 1rem; }
   .topbar-nav a:not(.cta) { display: none; }
-  .manifest-strip { padding: 0.35rem 1.2rem; gap: 0.8rem; font-size: 0.55rem; letter-spacing: 0.15em; overflow-x: auto; }
+  .manifest-strip { padding: 0.4rem 1.2rem; gap: 0.8rem; font-size: 0.55rem; letter-spacing: 0.15em; overflow-x: auto; }
   .hero { padding: 8rem 1.2rem 3rem; }
   section { padding: 4rem 1.2rem; }
   .spec-grid { grid-template-columns: 1fr 1fr; }
@@ -1105,10 +1147,10 @@ footer {
   </div>
 </header>
 
-<!-- HERO / MASTHEAD -->
+<!-- HERO -->
 <section class="hero">
   <div class="hero-label">An AI Reliability Company</div>
-  <h1>Make your AI systems <span class="accent">reliable,<br/>safe,</span> and <span class="accent">audit-ready</span>.
+  <h1>Make your AI systems <span class="accent">reliable, safe,</span> and <span class="accent">audit-ready</span>.
     <span class="tag">RudriQ builds the observability layer every production AI system will need.</span>
   </h1>
   <p class="hero-sub">We're starting with data lineage — and shipping toward a unified platform that covers data, models, LLMs, and regulatory compliance under one import.</p>
@@ -1132,27 +1174,27 @@ footer {
   </div>
 </section>
 
-<!-- SPEC SHEET (Stats) -->
+<!-- SPEC SHEET -->
 <div class="spec-sheet">
   <div class="spec-grid">
     <div class="spec-cell">
       <div class="spec-num">§ I</div>
-      <div class="spec-value serif">288<span class="accent">+</span></div>
+      <div class="spec-value sans">288<span class="accent">+</span></div>
       <div class="spec-label">Hooks installed</div>
     </div>
     <div class="spec-cell">
       <div class="spec-num">§ II</div>
-      <div class="spec-value serif">3</div>
+      <div class="spec-value sans">3</div>
       <div class="spec-label">Frameworks tracked</div>
     </div>
     <div class="spec-cell">
       <div class="spec-num">§ III</div>
-      <div class="spec-value serif">6.1<span style="font-size:1.8rem">%</span></div>
+      <div class="spec-value sans">6.1<span style="font-size:1.8rem">%</span></div>
       <div class="spec-label">Measured overhead</div>
     </div>
     <div class="spec-cell">
       <div class="spec-num">§ IV</div>
-      <div class="spec-value serif">1</div>
+      <div class="spec-value sans">1</div>
       <div class="spec-label">Line to install</div>
     </div>
   </div>
@@ -1188,15 +1230,15 @@ footer {
   </div>
 </section>
 
-<!-- §02 CRT TERMINAL — THE FUTURISTIC MOMENT -->
+<!-- §02 CRT TERMINAL -->
 <div class="terminal-section">
   <div class="terminal-container">
     <aside class="terminal-caption">
-      <div class="caption-label">§ 02 · LIVE FEED</div>
+      <div class="caption-label">§ 02 · Live Feed</div>
       <h3>What a trace <span class="italic">looks like</span>.</h3>
       <p>Credit card fraud detection pipeline. 284,807 transactions. Tracked end-to-end — no code changes required.</p>
       <div class="detail">
-        <strong style="color: var(--ink);">F1 = 0.8333</strong> · AUC = 0.9871<br/>
+        <strong>F1 = 0.8333</strong> · AUC = 0.9871<br/>
         Pipeline wall time: 93.3s<br/>
         Tracking overhead: 6.1%<br/>
         <br/>
@@ -1220,8 +1262,8 @@ footer {
   </div>
 </div>
 
-<!-- §03 FLAGSHIP: AUTOLINEAGE -->
-<section class="flagship">
+<!-- §03 FLAGSHIP -->
+<section class="flagship" id="product">
   <div class="section-header">
     <div class="section-num">§ 03 · Shipping Today</div>
     <h2 class="section-title">Meet <span class="italic">AutoLineage</span>.</h2>
@@ -1295,7 +1337,7 @@ footer {
   </div>
 </section>
 
-<!-- §04 VISION — FUTURE PRODUCTS -->
+<!-- §04 VISION -->
 <section id="vision">
   <div class="section-header">
     <div class="section-num">§ 04 · Vision</div>
@@ -1450,7 +1492,7 @@ footer {
     <div class="footer-top">
       <div class="footer-brand">
         <h3>Rudri<span class="mark">Q</span></h3>
-        <p>Building the observability layer every production AI system will need. Independent, open source, and shipping in public.</p>
+        <p>Building the observability layer every production AI system will need. Independent, open source, shipping in public.</p>
       </div>
       <div class="footer-col">
         <h5>Product</h5>
@@ -1485,7 +1527,6 @@ footer {
 </footer>
 
 <script>
-// Streaming CRT trace
 (function() {
   const traces = [
     { n: '01', cat: 'io',    catLabel: 'I/O',      op: '<span class="fn">read_csv</span> → (284,807, 31)',                   meta: '1,280 ms' },
@@ -1503,7 +1544,6 @@ footer {
     { n: '13', cat: 'eval',  catLabel: 'Evaluate',  op: '<span class="fn">roc_auc_score</span>    = <strong>0.9871</strong>', meta: '✓' },
   ];
   const screen = document.getElementById('crtScreen');
-  const promptEl = screen.querySelector('.crt-prompt');
   let index = 0;
   let cursor = null;
 
